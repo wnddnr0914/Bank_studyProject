@@ -17,7 +17,6 @@ modify
 CREATE TABLE "ACCOUNT" (
 	"ACC_CODE"	number		NOT NULL,
 	"ACC_NAME"	char(10)		NULL
-    "dakl"  
 );
 
 CREATE TABLE "OWNACCOUNT" (
