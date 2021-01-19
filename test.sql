@@ -2,7 +2,8 @@ CREATE TABLE "PERSON" (
 	"ID"	char(12)		NOT NULL,
 	"NAME"	char(5)		NULL,
 	"GENDER"	number		NULL,
-	"YEAR"	number(3)		NULL
+	"YEAR"	number(3)		NULL,
+	"pw"	char(20)		NULL
 );
 alter table
    PERSON
@@ -10,6 +11,7 @@ modify
 (
    NAME    char(10)
 );
+
 --drop table PERSON CASCADE CONSTRAINTS;
 --drop table ACCOUNT CASCADE CONSTRAINTS;
 --drop table OWNACCOUNT CASCADE CONSTRAINTS;
@@ -77,25 +79,6 @@ ALTER TABLE "ACC_W_D" ADD CONSTRAINT "FK_OWNACCOUNT_TO_ACC_W_D_2" FOREIGN KEY (
 REFERENCES "OWNACCOUNT" (
 	"ACC_NUM"
 );
-insert into PERSON values('tlswnddnr2','신중욱',0,12);
-insert into PERSON values('qkralwjd','박미정',1,85);
-insert into PERSON values('qkrwnsgud','박준형',0,61);
-insert into PERSON values('wkdtndud','장수영',1,18);
-
-insert into ACCOUNT values(1,'기본');
-insert into ACCOUNT values(2,'적금');
-insert into ACCOUNT values(3,'청약');
-
-insert into OWNACCOUNT values(11,0,1,'tlswnddnr2');
-insert into OWNACCOUNT values(12,100000,3,'qkralwjd');
-insert into OWNACCOUNT values(13,0,2,'qkrwnsgud');
-insert into OWNACCOUNT values(14,0,1,'wkdtndud');
-
-select * from PERSON;
-select * from ACCOUNT;
-select * from OWNACCOUNT;
-
-
 
 
 
