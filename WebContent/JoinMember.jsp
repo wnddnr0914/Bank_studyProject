@@ -26,16 +26,16 @@
 				</td>
 			</tr>
 			<tr>
-				<td>나이<td><td><input type="text" name="year"></td>
+				<td>나이<td><td><input type="number"  name="year" min="1" max="200"></td>
 			</tr>
 			<tr>
 				<td>아이디<td><td><input type="text" name="id"></td>
 			</tr>
 			<tr>
-				<td>비번<td><td><input type="text" name="pw1"></td>
+				<td>비번<td><td><input type="password" name="pw1"></td>
 			</tr>
 			<tr>
-				<td>비번 확인<td><td><input type="text" name="pw2"></td>
+				<td>비번 확인<td><td><input type="password" name="pw2"></td>
 			</tr>
 			<tr>
 				<td colspan="2">

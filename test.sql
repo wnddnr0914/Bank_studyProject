@@ -5,6 +5,13 @@ CREATE TABLE "PERSON" (
 	"YEAR"	number(3)		NULL,
 	"pw"	char(20)		NULL
 );
+
+insert into PERSON values('신중욱1','신중욱',1,19,'비번');
+select * from PERSON;
+
+
+insert into ACCOUNT values(1,'hi');
+insert into  values
 alter table
    PERSON
 modify
@@ -21,7 +28,7 @@ CREATE TABLE "ACCOUNT" (
 	"ACC_NAME"	char(10)		NULL
 );
 
-CREATE TABLE "OWNACCOUNT" (
+CREATE TABLE "OWNACCOUNT" `(
 	"ACC_NUM"	number(13)		NOT NULL,
 	"BALANCE"	number		NULL,
 	"ACC_CODE"	number		NOT NULL,
