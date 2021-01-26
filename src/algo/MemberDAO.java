@@ -78,9 +78,11 @@ public class MemberDAO {
 				ownAccount.setAcc_num(rs.getInt(1));
 				ownAccount.setBalance(rs.getInt(2));
 				ownAccount.setAcc_code(rs.getInt(3));
-				ownAccount.setId(rs.getString(1));
+				ownAccount.setId(rs.getString(4));
+				v.add(ownAccount);
 			}
 			
+			con.close();
 			
 		} catch (Exception e) {
 			// TODO: handle exception

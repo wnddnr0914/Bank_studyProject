@@ -23,7 +23,8 @@
 				<td align="center" width="150">계좌번호</td>
 				<td align="center" width="150">잔액</td>
 				<td align="center" width="150">통장종류코드=통장 종류 명</td>
-				<td align="center" width="150">사용자 고유 번호</td>	
+				<td align="center" width="150">사용자 고유 번호</td>
+				<td align="center" width="150">비고</td>	
 			</tr>
 			<%
 			for(int i=0;i<vec.size();i++){
@@ -33,7 +34,8 @@
 				<td align="center" width="150"><%=a.getAcc_num() %></td>
 				<td align="center" width="150"><%=a.getBalance() %></td>
 				<td align="center" width="150"><%=a.getAcc_code() %></td>
-				<td align="center" width="150"><%=a.getId() %></td>	
+				<td align="center" width="150"><%=a.getId() %></td>
+				<td><a href="Show_ACC_W_D.jsp?ACC_NUM=<%= a.getAcc_num() %>">거래내역</a></td>>
 			</tr>
 			<% } %>
 		</table>
