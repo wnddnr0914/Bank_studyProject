@@ -3,8 +3,7 @@
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.Catch"%>
-<%@page import="com.sun.beans.util.Cache"%>
-<%@page import="sun.nio.cs.HistoricallyNamedCharset"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,11 +25,15 @@
 			alert("비밀번호 확인과 비밀번호가 다릅니다");
 			history.go(-1);
 		</script>
+		
 	<%
 	}
 	MemberDAO mdao =new MemberDAO();
+	out.print("된거야");
 	mdao.insertMemberJoin(mbean);
+	out.print("된거야");
 %>
 값은 정상적으로 들어갔당
+
 </body>
 </html>

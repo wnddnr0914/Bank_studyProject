@@ -11,9 +11,10 @@
 </head>
 <body>
 	<%
+		String id="신중욱1";
 		MemberDAO mdao = new MemberDAO();
 	
-		Vector<u_OwnAccount> vec =mdao.allSelectMember();
+		Vector<u_OwnAccount> vec =mdao.allSelectMember(id);
 		
 	
 	%>

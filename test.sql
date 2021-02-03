@@ -6,11 +6,16 @@ CREATE TABLE "PERSON" (
 	"pw"	char(20)		NULL
 );
 
-insert into PERSON values('신중욱1','신중욱',1,19,'비번');
-select * from PERSON;
+insert into PERSON values('신중욱','신중욱',1,19,'비번');
+select * from person ;
 
+insert into OWNACCOUNT values(10,20,1,'신중욱1');
+insert into OWNACCOUNT values(10000,2000,2,'신중욱1');
+insert into OWNACCOUNT values(15120,53150,2,'신중욱1');
 
-insert into ACCOUNT values(1,'hi');
+insert into OWNACCOUNT values(100,20,1,'신중욱2');
+
+insert into ACCOUNT values(2,'hi');
 insert into  values
 alter table
    PERSON
