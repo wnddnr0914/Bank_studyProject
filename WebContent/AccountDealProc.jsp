@@ -8,14 +8,37 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <%
-	int give_acc=(int)request.getAttribute("give_acc");
-	int get_acc=(int)request.getAttribute("get_acc");
-	int money=(int)request.getAttribute("money");
+
+
+	int give_acc=Integer.parseInt(request.getParameter("give_acc"));
+	int get_acc=Integer.parseInt(request.getParameter("get_acc"));
+	int money=Integer.parseInt(request.getParameter("money"));
+	
 	MemberDAO mdao=new MemberDAO();
-	mdao.hi(give_acc, get_acc, money);
+	
+	boolean check=mdao.hi(give_acc, get_acc, money);
+	if(check==false){
+		%>
+			<script type="text/javascript">
+				alert("입금이 정상적으로 이루어지지 않았습니다");
+				history.go(-1);
+			</script>
+		<%
+		
+	}else{
+		%>
+		<script type="text/javascript">
+			alert("입금 완료되었습니다");
+		</script>
+		<%
+		
+	}
+	
 	
 %>
+
 
 </body>
 </html>

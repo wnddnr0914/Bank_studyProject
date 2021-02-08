@@ -11,7 +11,7 @@
 </head>
 <body>
 	<%
-		String id="신중욱1";
+		String id="wnddnr";
 		MemberDAO mdao = new MemberDAO();
 	
 		Vector<u_OwnAccount> vec =mdao.allSelectMember(id);
@@ -34,7 +34,7 @@
 			<tr height="50">
 				<td align="center" width="150"><%=a.getAcc_num() %></td>
 				<td align="center" width="150"><%=a.getBalance() %></td>
-				<td align="center" width="150"><%=a.getAcc_code() %></td>
+				<td align="center" width="150"><%=mdao.Transform_name(a.getAcc_code()) %></td>
 				<td align="center" width="150"><%=a.getId() %></td>
 				<td><a href="Show_ACC_W_D.jsp?ACC_NUM=<%= a.getAcc_num() %>">거래내역</a></td>>
 			</tr>

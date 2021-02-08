@@ -1,3 +1,4 @@
+<%@page import="algo.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,6 +9,7 @@
 </head>
 <body>
 <center>
+
 	<form action="JoinMemberProc.jsp" method="post">
 		<table>
 			<tr>
@@ -29,7 +31,10 @@
 				<td>나이<td><td><input type="number"  name="year" min="1" max="200"></td>
 			</tr>
 			<tr>
-				<td>아이디<td><td><input type="text" name="id"></td>
+				<form action="Check_Id.jsp" method="get">
+					<td>아이디<td><td><input type="text" name="id"></td>
+					<td><input type="submit" value="중복 확인"></td>
+				</form>
 			</tr>
 			<tr>
 				<td>비번<td><td><input type="password" name="pw1"></td>

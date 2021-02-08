@@ -10,6 +10,7 @@ import java.util.Vector;
 import javax.annotation.ManagedBean;
 
 import org.apache.jasper.tagplugins.jstl.core.Catch;
+import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import java.sql.*;
 public class MemberDAO {
@@ -42,28 +43,61 @@ public class MemberDAO {
 		getCon();
 		try {
 			//con.setAutoCommit(false);
-		String sql="insert into PERSON values('?','?',?,?,'?');";
+		String sql="INSERT INTO PERSON VALUES(?,?,?,?,?)";
 		
-		pstmt = ((java.sql.Connection) con).prepareStatement(sql);
-		
+		pstmt =con.prepareStatement(sql);
+
 		pstmt.setString(1, bean.getId());
 		pstmt.setString(2, bean.getName());
 		pstmt.setInt(3, bean.getGender());
 		pstmt.setInt(4, bean.getYear());
 		pstmt.setString(5, bean.getPw1());
-		
-		//pstmt.executeUpdate();
+
+		pstmt.executeUpdate();
+	
 		//pstmt.close();
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		
 		}
 				
 		
 	}
 	
+	public boolean check_id (String id) {
+		getCon();
+		try {
+			String sql="SELECT ID FROM PERSON";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			int i=0;
+			String abc;
+			System.out.println("신중욱1");
+			
+			while(rs.next()) {
+				abc=rs.getNString(1);
+				if (id.equals(abc)) {
+					i=1;
+					break;
+				}
+			}
+		if (i==1) {
+			return false;
+		}
+		return true;
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+		
+		
+	}
 	
 	
 	public Vector<u_OwnAccount> allSelectMember(String id) {
@@ -72,12 +106,12 @@ public class MemberDAO {
 		try {
 			getCon();
 			
-			String sql="select * from  OWNACCOUNT";
 			
-			pstmt = ((java.sql.Connection) con).prepareStatement(sql);
-
+			String sql="select * from OWNACCOUNT WHERE ID=\'"+id+"\'";
+			Statement s = con.createStatement();
+		
 			
-			rs=pstmt.executeQuery();
+			rs=s.executeQuery(sql);
 			
 			while(rs.next()) {
 				u_OwnAccount ownAccount = new u_OwnAccount();
@@ -85,6 +119,7 @@ public class MemberDAO {
 				ownAccount.setBalance(rs.getInt(2));
 				ownAccount.setAcc_code(rs.getInt(3));
 				ownAccount.setId(rs.getString(4));
+				
 				v.add(ownAccount);
 			}
 
@@ -96,29 +131,42 @@ public class MemberDAO {
 		return v;
 	}	
 	
+	public String Transform_name (int acc_code) {
+		String acc_name=null;
+		try {
+			getCon();
+			String sql="SELECT ACC_NAME FROM ACCOUNT WHERE ACC_CODE=\'"+acc_code+"\'";
+			Statement s=con.createStatement();
+			rs=s.executeQuery(sql);
+			rs=pstmt.executeQuery();
+			acc_name=rs.getNString("ACC_NAME");
+			return acc_name;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return acc_name;
+	
+	}
 	
 	
 
 	
-	public ArrayList<Integer> get_my_account(String id) {
+	public ArrayList<Integer> get_my_account(String ids) {//계좌 리스트 보여주는 메소드
 		
 		ArrayList<Integer> arr=new ArrayList<Integer>();
 		
 		try {
 		getCon();
 		
-		String sql="select * from OWNACCOUNT WHERE ID="+id;
-		pstmt = ((java.sql.Connection) con).prepareStatement(sql);
-		
-		
-			rs=pstmt.executeQuery();
-		
+		String sql="select * from OWNACCOUNT WHERE ID=\'"+ids+"\'";
+		Statement s = con.createStatement();
+		rs = s.executeQuery(sql);
 		while(rs.next()) {
 			u_OwnAccount ownAccount = new u_OwnAccount();
-			arr.add(rs.getInt(1));
+			arr.add(rs.getInt("ACC_NUM"));
 		}
+		con.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -127,24 +175,96 @@ public class MemberDAO {
 		return arr ; 
 	}
 	
-	public void hi (int a ,int b ,int c) {
+	public boolean hi (int a ,int b ,int c) {//입금해주는 메소드
 		try {
 			getCon();
-				
-			String sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM="+a;
-			pstmt = ((java.sql.Connection) con).prepareStatement(sql);
-			
+			if (hi2(b)) {//여기 일단 임시 조치로 이렇게 홰놓음
+				return false;
+			}
+			System.out.println("연결은 되었습니다");
+			//계좌번호의 잔액 조회해 주는 코드+원래 있던 돈에서 나갈돈을 빼준다
+			String sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, a);
 			rs=pstmt.executeQuery();
-				int original_give_money=rs.getInt(2);
+			int original_give_money=0;
+			if (rs.next()) {
 				
-				original_give_money-=b;//이부분 까지가 원래 돈에서 보낼돈 빼는 부분인데 
-									   //80프로 완성되었고 메소드 만들까 고민중
+				original_give_money=rs.getInt("BALANCE");
 				
-				
+				if (c>original_give_money) {
+					return false;
+				}
+				original_give_money-=c;
 			
+			}
+			
+			
+			//나갈돈을 데이터 베이스에서 빼는작업
+			sql="UPDATE OWNACCOUNT SET BALANCE=? WHERE ACC_NUM=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, original_give_money);
+			pstmt.setInt(2, a);
+			pstmt.executeUpdate();
+
+			//계좌번호의 잔액 조회해주고 들어올돈 플러스 해주는 코드
+			sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, b);
+			rs=pstmt.executeQuery();
+			int original_get_money=0;
+			if(rs.next()) {//이거 꼭 해줘야 하는 이유? 물어보기
+				original_get_money=rs.getInt("BALANCE");
+				original_get_money+=c;
+					
+			}
+			
+			//계좌에 플러스 해준돈을 디비에 업데이트 해주는
+			sql="UPDATE OWNACCOUNT SET BALANCE=? WHERE ACC_NUM=? ";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, original_get_money);
+			pstmt.setInt(2, b);
+			pstmt.executeUpdate();
+			
+			
+			//아직 찾는중
+			System.out.println("시작한다잉1");
+			Timestamp timestamp =new Timestamp(System.currentTimeMillis());
+			System.out.println("시작한다잉3");
+			
+			sql="INSERT INTO ACC_W_D VALUES(board_seq,?,?,?,?)";
+			System.out.println("시작한다잉2");
+			pstmt.setInt(2, c);
+			pstmt.setTimestamp(3, timestamp);
+			pstmt.setInt(4, b);
+			pstmt.setInt(5, a);
+			System.out.println("끝났다잉");
+			pstmt.executeQuery();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+	
+				
 			}
+		return true;
 	}
+	
+	public boolean hi2(int b) {
+		try {
+			getCon();
+			String sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, b);
+			rs=pstmt.executeQuery();
+			int original_get_money=0;
+			if(rs.next()) {//이거 꼭 해줘야 하는 이유? 물어보기
+				return false;
+					
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return true;
+	}
+	
 }

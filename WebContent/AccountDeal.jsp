@@ -10,11 +10,11 @@
 </head>
 <body>
 	<%
-		String id="신중욱";
+		String id="wnddnr";
 		MemberDAO mdao=new MemberDAO();
 	%>
 	<table border="1">
-		<form action="AccountDealProc" method="get">
+		<form action="AccountDealProc.jsp" method="get">
 			<tr>
 				<td colspan="2">입금하기</td>
 			</tr>
@@ -26,10 +26,10 @@
 						ArrayList<Integer> give_a = new ArrayList<Integer>();
 						give_a=mdao.get_my_account(id);
 						
-						for(int i=1;i<give_a.size();i++){
+						for(int i=0;i<give_a.size();i++){
 							%>
 							
-							<option value="<%give_a.get(i);%>"><%=give_a.get(i) %></option>
+							<option value="<%=give_a.get(i)%>"><%=give_a.get(i) %></option>
 							<%
 						}
 							
@@ -41,7 +41,7 @@
 			
 			<tr>
 				<td>입금계좌</td>
-				<td><input type="text" name="get_acc"></td>
+				<td><input type="number" name="get_acc"></td>
 			</tr>
 			<tr>
 				<td>입금액</td>

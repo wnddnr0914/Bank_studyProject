@@ -1,42 +1,32 @@
+
 CREATE TABLE "PERSON" (
-	"ID"	char(12)		NOT NULL,
-	"NAME"	char(5)		NULL,
-	"GENDER"	number		NULL,
+	"ID"	char(20)		NOT NULL,
+	"NAME"	char(30)		NULL,
+	"GENDER"	number(13)		NULL,
 	"YEAR"	number(3)		NULL,
 	"pw"	char(20)		NULL
 );
+CREATE SEQUENCE board_seq;
 
-insert into PERSON values('신중욱','신중욱',1,19,'비번');
-select * from person ;
+SELECT * FROM ACCOUNT;
+select * from ACC_W_D;
 
-insert into OWNACCOUNT values(10,20,1,'신중욱1');
-insert into OWNACCOUNT values(10000,2000,2,'신중욱1');
-insert into OWNACCOUNT values(15120,53150,2,'신중욱1');
+SELECT ACC_NAME FROM ACCOUNT WHERE ACC_CODE=0;
 
-insert into OWNACCOUNT values(100,20,1,'신중욱2');
-
-insert into ACCOUNT values(2,'hi');
-insert into  values
-alter table
-   PERSON
-modify
-(
-   NAME    char(10)
-);
-
---drop table PERSON CASCADE CONSTRAINTS;
---drop table ACCOUNT CASCADE CONSTRAINTS;
---drop table OWNACCOUNT CASCADE CONSTRAINTS;
---drop table ACC_W_D CASCADE CONSTRAINTS;
+insert into ACCOUNT values(3,'');
+insert into OWNACCOUNT values(123,50000,1,'wnddnr');
+insert into OWNACCOUNT values(200,1000,0,'wnddnr');
+select * from  OWNACCOUNT
+			   OWNACCOUNT WHERE;
 CREATE TABLE "ACCOUNT" (
-	"ACC_CODE"	number		NOT NULL,
+	"ACC_CODE"	number(13)		NOT NULL,
 	"ACC_NAME"	char(10)		NULL
 );
 
-CREATE TABLE "OWNACCOUNT" `(
+CREATE TABLE "OWNACCOUNT" (
 	"ACC_NUM"	number(13)		NOT NULL,
-	"BALANCE"	number		NULL,
-	"ACC_CODE"	number		NOT NULL,
+	"BALANCE"	number(10)		NULL,
+	"ACC_CODE"	number(10)		NOT NULL,
 	"ID"	char(12)		NOT NULL
 );
 
@@ -63,35 +53,3 @@ ALTER TABLE "OWNACCOUNT" ADD CONSTRAINT "PK_OWNACCOUNT" PRIMARY KEY (
 ALTER TABLE "ACC_W_D" ADD CONSTRAINT "PK_ACC_W_D" PRIMARY KEY (
 	"Key"
 );
-
-ALTER TABLE "OWNACCOUNT" ADD CONSTRAINT "FK_ACCOUNT_TO_OWNACCOUNT_1" FOREIGN KEY (
-	"ACC_CODE"
-)
-REFERENCES "ACCOUNT" (
-	"ACC_CODE"
-);
-
-ALTER TABLE "OWNACCOUNT" ADD CONSTRAINT "FK_PERSON_TO_OWNACCOUNT_1" FOREIGN KEY (
-	"ID"
-)
-REFERENCES "PERSON" (
-	"ID"
-);
-
-ALTER TABLE "ACC_W_D" ADD CONSTRAINT "FK_OWNACCOUNT_TO_ACC_W_D_1" FOREIGN KEY (
-	"GET_ACC"
-)
-REFERENCES "OWNACCOUNT" (
-	"ACC_NUM"
-);
-
-ALTER TABLE "ACC_W_D" ADD CONSTRAINT "FK_OWNACCOUNT_TO_ACC_W_D_2" FOREIGN KEY (
-	"GIVE_ACC"
-)
-REFERENCES "OWNACCOUNT" (
-	"ACC_NUM"
-);
-
-
-
-
