@@ -267,4 +267,33 @@ public class MemberDAO {
 		return true;
 	}
 	
+	public Vector<acc_w_d> acc_record(int acc_num) {
+		try {
+			getCon();
+			Vector<acc_w_d> a=new Vector<acc_w_d>();
+			String sql="SELECT * FROM ACC_W_D WHERE GET_ACC=? OR GIVE_ACC=? ORDER BY KEY(ASC)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, acc_num);
+			pstmt.setInt(2, acc_num);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				acc_w_d acc=new acc_w_d();
+				acc.setKey(rs.getInt(1));
+				acc.setMoney(rs.getInt(2));
+				acc.setTra_time(rs.getTimestamp(3));
+				acc.setGet_acc(rs.getInt(4));
+				acc.setGive_acc(rs.getInt(5));
+				a.add(acc);
+				
+			}
+			return a;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null; 
+	}
+	
+	
+	
+	
 }

@@ -8,6 +8,8 @@ CREATE TABLE "PERSON" (
 );
 CREATE SEQUENCE board_seq;
 
+drop SEQUENCE board_seq;
+
 SELECT * FROM ACCOUNT;
 select * from ACC_W_D;
 

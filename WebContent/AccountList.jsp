@@ -31,13 +31,15 @@
 			for(int i=0;i<vec.size();i++){
 				u_OwnAccount a= vec.get(i);
 			%>
+			<form action="Show_ACC_W_D.jsp" method="get">
 			<tr height="50">
-				<td align="center" width="150"><%=a.getAcc_num() %></td>
+				<td align="center" width="150" ><%=a.getAcc_num() %><input type="hidden" name="ACC_NUM" value="<%= a.getAcc_num()%>"></td>
 				<td align="center" width="150"><%=a.getBalance() %></td>
 				<td align="center" width="150"><%=mdao.Transform_name(a.getAcc_code()) %></td>
 				<td align="center" width="150"><%=a.getId() %></td>
-				<td><a href="Show_ACC_W_D.jsp?ACC_NUM=<%= a.getAcc_num() %>">거래내역</a></td>>
+				<td><input type="submit" value="거래내역"></td>>
 			</tr>
+			</form>
 			<% } %>
 		</table>
 	</center>
