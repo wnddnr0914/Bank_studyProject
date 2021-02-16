@@ -30,12 +30,18 @@
 			<tr>
 				<td>나이<td><td><input type="number"  name="year" min="1" max="200"></td>
 			</tr>
-			<tr>
-				<form action="Check_Id.jsp" method="get">
+			<form>
+				<tr>
+				
 					<td>아이디<td><td><input type="text" name="id"></td>
-					<td><input type="submit" value="중복 확인"></td>
-				</form>
+					
+					<td><input type="button" value="누러"></td>
+				</tr>
+				
+			<tr>
+				<td> <input type='submit' id='checkBtn' value='중복확인' ></div></td>
 			</tr>
+			</form>
 			<tr>
 				<td>비번<td><td><input type="password" name="pw1"></td>
 			</tr>

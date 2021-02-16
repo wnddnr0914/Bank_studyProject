@@ -6,12 +6,23 @@ CREATE TABLE "PERSON" (
 	"YEAR"	number(3)		NULL,
 	"pw"	char(20)		NULL
 );
-CREATE SEQUENCE board_seq;
-
+CREATE SEQUENCE seq
+	START WITH 1
+	INCREMENT BY 1;
+	
+	SELECT * FROM ACCOUNT;
+drop table ACC_W_D;
 drop SEQUENCE board_seq;
+insert into ACCOUNT values(3,'예금');
+delete ACCOUNT where ACC_CODE=4;
 
-SELECT * FROM ACCOUNT;
-select * from ACC_W_D;
+SELECT * FROM person;
+select * from ACCOUNT;
+
+INSERT INTO ACC_W_D(Key,MONEY,TRA_TIME,GET_ACC,GIVE_ACC) VALUES(seq.NEXTVAL,20,SYSTIMESTAMP,123,200);
+
+select * from all_tab_columns where table_name='ACC_W_D';
+INSERT INTO ACC_W_D("Key","MONEY","GET_ACC","GIVE_ACC") VALUES(5,5,6,7);
 
 SELECT ACC_NAME FROM ACCOUNT WHERE ACC_CODE=0;
 

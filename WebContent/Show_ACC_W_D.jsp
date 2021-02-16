@@ -11,6 +11,7 @@
 </head>
 <body>
 	<% int ACC_NUM=Integer.parseInt(request.getParameter("ACC_NUM"));
+		System.out.println("안녕");
 		MemberDAO mdao=new MemberDAO();
 		Vector<acc_w_d> vec =mdao.acc_record(ACC_NUM);
 		acc_w_d a=new acc_w_d(); 
@@ -25,6 +26,7 @@
 			<td>금액</td>
 		</tr>
 		<%
+			
 			for(int i=0;i<vec.size();i++){
 				a=vec.get(i);
 				%>

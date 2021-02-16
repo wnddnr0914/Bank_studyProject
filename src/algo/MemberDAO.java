@@ -12,6 +12,7 @@ import javax.annotation.ManagedBean;
 import org.apache.jasper.tagplugins.jstl.core.Catch;
 import org.apache.jasper.tagplugins.jstl.core.Out;
 
+import java.math.BigDecimal;
 import java.sql.*;
 public class MemberDAO {
 	
@@ -29,7 +30,7 @@ public class MemberDAO {
 		try{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			
-			con = (Connection) DriverManager.getConnection(url,id,pass);
+			con =  DriverManager.getConnection(url,id,pass);
 			
 			
 		}catch(Exception e){
@@ -228,18 +229,22 @@ public class MemberDAO {
 			
 			
 			//아직 찾는중
-			System.out.println("시작한다잉1");
+		
 			Timestamp timestamp =new Timestamp(System.currentTimeMillis());
-			System.out.println("시작한다잉3");
 			
-			sql="INSERT INTO ACC_W_D VALUES(board_seq,?,?,?,?)";
-			System.out.println("시작한다잉2");
-			pstmt.setInt(2, c);
-			pstmt.setTimestamp(3, timestamp);
-			pstmt.setInt(4, b);
-			pstmt.setInt(5, a);
+			sql="INSERT INTO ACC_W_D VALUES(seq.NEXTVAL,?,?,?,?)";
+			System.out.println("1111");
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, c);
+			pstmt.setTimestamp(2, timestamp);
+			System.out.println("11111111111");
+			
+			//jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+			pstmt.setInt(3, b);
+			pstmt.setInt(4, a);
+			System.out.println("1111111111111111111111");
 			System.out.println("끝났다잉");
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -271,7 +276,7 @@ public class MemberDAO {
 		try {
 			getCon();
 			Vector<acc_w_d> a=new Vector<acc_w_d>();
-			String sql="SELECT * FROM ACC_W_D WHERE GET_ACC=? OR GIVE_ACC=? ORDER BY KEY(ASC)";
+			String sql="SELECT * FROM ACC_W_D WHERE GET_ACC=? OR GIVE_ACC=? ORDER BY TRA_TIME DESC";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, acc_num);
 			pstmt.setInt(2, acc_num);
@@ -292,7 +297,26 @@ public class MemberDAO {
 		}
 		return null; 
 	}
-	
+	public ArrayList<String> get_AccountKinds() {
+		ArrayList<String> list=new ArrayList<String>();
+		try {
+			getCon();
+			String acc_name;
+			
+			
+			String sql="SELECT ACC_NAME FROM ACCOUNT";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				acc_name=rs.getString(1);
+				list.add(acc_name);
+			}
+			return list;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return list;
+	}
 	
 	
 	
