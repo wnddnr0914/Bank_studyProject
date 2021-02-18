@@ -18,7 +18,7 @@
 		<tr>
 			<td>계좌 종류</td>
 			<td>
-				<select id="AccountKinds">
+				<select name="AccountKinds">
 				<%
 					ArrayList<String> list=new ArrayList<String>(); 
 					list=mdao.get_AccountKinds();
@@ -33,11 +33,12 @@
 			</td>
 			
 		</tr>
+	
 		<tr>
-			<td><label>개인정보 동의:<input type="checkbox" id="check1" value="1"></label></td>
+			<td><label>개인정보 동의[필수]:<input type="checkbox" name="check1" value="1"></label></td>
 		</tr>
 		<tr>
-			<td><label>두번째 동의:<input type="checkbox" id="check2" value="2"></label></td>
+			<td><label>두번째 동의[필수]:<input type="checkbox" name="check2" value="1"></label></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="계좌 만들기"></td>

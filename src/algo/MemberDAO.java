@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.annotation.ManagedBean;
@@ -316,6 +317,49 @@ public class MemberDAO {
 			// TODO: handle exception
 		}
 		return list;
+	}
+	public int makeAccount(int code,String id) {
+		long acc_num=System.nanoTime();
+		try {
+			getCon();
+			
+			String abc=String.valueOf(acc_num);
+		
+			System.out.println(abc);
+			
+			long line=1;
+			for(int i=1;i<abc.length();i++) {
+				line*=10;
+			}
+			
+			System.out.println(line);
+			acc_num=0;
+			for(int i = 0; i < 8; i++) {
+				
+				// charAt 함수로 문자열을 한글자씩 취득
+				int num=abc.charAt(i)-'0';
+				acc_num+=num*line;
+				System.out.println(acc_num);
+				line=line/10;
+			}
+			acc_num/=10000000;
+			System.out.println(acc_num);
+			
+			
+			String sql="INSERT INTO OWNACCOUNT VALUES(?,0,?,?)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, (int) acc_num);
+			pstmt.setInt(2, code);
+			pstmt.setString(3, id);
+			pstmt.executeUpdate();
+			return (int) acc_num;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return (int) acc_num;
+		
+		
 	}
 	
 	

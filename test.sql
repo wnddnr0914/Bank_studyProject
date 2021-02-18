@@ -6,31 +6,10 @@ CREATE TABLE "PERSON" (
 	"YEAR"	number(3)		NULL,
 	"pw"	char(20)		NULL
 );
-CREATE SEQUENCE seq
-	START WITH 1
-	INCREMENT BY 1;
-	
-	SELECT * FROM ACCOUNT;
-drop table ACC_W_D;
-drop SEQUENCE board_seq;
+select *from OWNACCOUNT;
+delete OWNACCOUNT where balance=0;
+update ownaccount set balance=10000 where acc_num=2111450678; 
 insert into ACCOUNT values(3,'예금');
-delete ACCOUNT where ACC_CODE=4;
-
-SELECT * FROM person;
-select * from ACCOUNT;
-
-INSERT INTO ACC_W_D(Key,MONEY,TRA_TIME,GET_ACC,GIVE_ACC) VALUES(seq.NEXTVAL,20,SYSTIMESTAMP,123,200);
-
-select * from all_tab_columns where table_name='ACC_W_D';
-INSERT INTO ACC_W_D("Key","MONEY","GET_ACC","GIVE_ACC") VALUES(5,5,6,7);
-
-SELECT ACC_NAME FROM ACCOUNT WHERE ACC_CODE=0;
-
-insert into ACCOUNT values(3,'');
-insert into OWNACCOUNT values(123,50000,1,'wnddnr');
-insert into OWNACCOUNT values(200,1000,0,'wnddnr');
-select * from  OWNACCOUNT
-			   OWNACCOUNT WHERE;
 CREATE TABLE "ACCOUNT" (
 	"ACC_CODE"	number(13)		NOT NULL,
 	"ACC_NAME"	char(10)		NULL
