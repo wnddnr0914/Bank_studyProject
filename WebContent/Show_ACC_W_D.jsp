@@ -10,12 +10,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% int ACC_NUM=Integer.parseInt(request.getParameter("ACC_NUM"));
-		System.out.println("안녕");
+	<%
+	if(request.getParameter("ACC_NUM")==null){
+		%>
+			<script type="text/javascript">
+				alert("제대로된 경로를 통해 들어와 주세요");
+				location.href="Main.jsp";
+			</script>
+		<%
+	}else{
+	
+	int ACC_NUM=Integer.parseInt(request.getParameter("ACC_NUM"));
+		
 		MemberDAO mdao=new MemberDAO();
 		Vector<acc_w_d> vec =mdao.acc_record(ACC_NUM);
 		acc_w_d a=new acc_w_d(); 
 	%>
+	<%@include file="top.jsp" %>
 	<center><h1>거래내역</h1></center>
 	<center>
 	<table border="1">
@@ -46,3 +57,6 @@
 
 </body>
 </html>
+<%
+	}
+%>

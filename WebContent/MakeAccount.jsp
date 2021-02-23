@@ -8,10 +8,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<%
-		String id="wnddnr";
+	if(session.getAttribute("uid")==null){
+		%>
+			<script type="text/javascript">
+				alert("로그인을 해주세요");
+				location.href="Login.jsp";
+			</script>
+		<%
+	
+	}
+	String id=(String)session.getAttribute("uid");
+		
 		MemberDAO mdao=new MemberDAO();
 		
 	%>
+	<%@include file="top.jsp" %>
 	<table>
 	<form action="MakeAccountProc.jsp" method="get" >
 		<tr><td><h2>계좌 만들기</h2></td></tr>

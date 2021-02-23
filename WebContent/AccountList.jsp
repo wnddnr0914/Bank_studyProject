@@ -11,13 +11,24 @@
 </head>
 <body>
 	<%
-		String id="wnddnr";
+		String id=(String)session.getAttribute("uid");
+		if(session.getAttribute("uid")==null){
+			%>
+				<script type="text/javascript">
+				alert("로그인을 해주세요");
+				location.href="Login.jsp";
+				</script>
+				
+			<%
+		
+		}
 		MemberDAO mdao = new MemberDAO();
 	
 		Vector<u_OwnAccount> vec =mdao.allSelectMember(id);
 		
 	
 	%>
+	<%@include file="top.jsp" %>
 	<center>
 		<table width="800" border="1">
 			<tr height="50">

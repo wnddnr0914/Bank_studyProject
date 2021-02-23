@@ -10,8 +10,16 @@
 <body>
 
 <%
+	if(session.getAttribute("uid")==null){
+		%>
+			alert("로그인을 해주세요");
+			location.href="login.jsp";
+		<%
+	}
 
-
+	if(request.getParameter("give_acc")!=null){
+		
+	
 	int give_acc=Integer.parseInt(request.getParameter("give_acc"));
 	int get_acc=Integer.parseInt(request.getParameter("get_acc"));
 	int money=Integer.parseInt(request.getParameter("money"));
@@ -35,7 +43,15 @@
 		<%
 		
 	}
-	
+	}else{
+		%>
+		<script type="text/javascript">
+		alert("제대로된 경로를 통해 들어와 주세요");
+		location.href="Main.jsp";
+		</script>
+			
+		<%
+	}
 	
 %>
 

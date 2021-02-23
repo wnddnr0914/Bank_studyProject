@@ -13,6 +13,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+	
 	<jsp:useBean id="mbean" class="algo.bean">
 		<jsp:setProperty name="mbean" property="*"/>
 	</jsp:useBean>
@@ -29,9 +33,13 @@
 	<%
 	}
 	MemberDAO mdao =new MemberDAO();
-	out.print("된거야");
 	mdao.insertMemberJoin(mbean);
-	out.print("된거야");
+	%>
+		<script type="text/javascript">
+			alert("회원가입이 완료되었습니다");
+			location.href="Main.jsp";
+		</script>
+	<%
 %>
 값은 정상적으로 들어갔당
 

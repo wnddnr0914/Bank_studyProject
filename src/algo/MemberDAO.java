@@ -77,7 +77,7 @@ public class MemberDAO {
 			rs=pstmt.executeQuery();
 			int i=0;
 			String abc;
-			System.out.println("신중욱1");
+			
 			
 			while(rs.next()) {
 				abc=rs.getNString(1);
@@ -183,7 +183,7 @@ public class MemberDAO {
 			if (hi2(b)) {//여기 일단 임시 조치로 이렇게 홰놓음
 				return false;
 			}
-			System.out.println("연결은 되었습니다");
+	
 			//계좌번호의 잔액 조회해 주는 코드+원래 있던 돈에서 나갈돈을 빼준다
 			String sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM=?";
 			pstmt = con.prepareStatement(sql);
@@ -234,17 +234,17 @@ public class MemberDAO {
 			Timestamp timestamp =new Timestamp(System.currentTimeMillis());
 			
 			sql="INSERT INTO ACC_W_D VALUES(seq.NEXTVAL,?,?,?,?)";
-			System.out.println("1111");
+		
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, c);
 			pstmt.setTimestamp(2, timestamp);
-			System.out.println("11111111111");
+		
 			
-			//jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+		
 			pstmt.setInt(3, b);
 			pstmt.setInt(4, a);
-			System.out.println("1111111111111111111111");
-			System.out.println("끝났다잉");
+	
+		
 			pstmt.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -325,25 +325,25 @@ public class MemberDAO {
 			
 			String abc=String.valueOf(acc_num);
 		
-			System.out.println(abc);
+			
 			
 			long line=1;
 			for(int i=1;i<abc.length();i++) {
 				line*=10;
 			}
 			
-			System.out.println(line);
+		
 			acc_num=0;
 			for(int i = 0; i < 8; i++) {
 				
 				// charAt 함수로 문자열을 한글자씩 취득
 				int num=abc.charAt(i)-'0';
 				acc_num+=num*line;
-				System.out.println(acc_num);
+				
 				line=line/10;
 			}
 			acc_num/=10000000;
-			System.out.println(acc_num);
+		
 			
 			
 			String sql="INSERT INTO OWNACCOUNT VALUES(?,0,?,?)";
@@ -358,8 +358,57 @@ public class MemberDAO {
 			// TODO: handle exception
 		}
 		return (int) acc_num;
+	}
+	public boolean login (String id, String pw) {
+		getCon();
+		try {
+			System.out.println(id+" "+pw);
+			
+			String sql="SELECT * FROM PERSON WHERE ID=? AND PASS=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			rs=pstmt.executeQuery();
+	
+			while(rs.next()) {
+				return true;
+				
+			}
+			return false;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public String select_name(String id) {
+		String namStr = " ";
 		
+		try {
+			getCon();
+			String sql="select name from person where id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setNString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				namStr=rs.getString(1);
+				return namStr;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return namStr;
+	}
+	public String Goods_Ex() {
 		
+		try {
+			getCon();
+			String sql="select ";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "ㅇㄹㄴ:"; 
 	}
 	
 	

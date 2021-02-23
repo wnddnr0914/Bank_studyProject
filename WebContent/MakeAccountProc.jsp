@@ -7,7 +7,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%
-	String id="wnddnr";
+	String id=(String)session.getAttribute("uid");
+	if(request.getParameter("AccountKinds")==null){
+		%>
+			<script type="text/javascript">
+				alert("제대로된 경로를 통해 들어와 주세요");
+				location.href="Main.jsp";
+			</script>
+		<%
+	}
+	else{
+		
+	
 	int acc_code=Integer.parseInt(request.getParameter("AccountKinds"));
 
 	
@@ -22,7 +33,8 @@
 	MemberDAO mdao=new MemberDAO();
 	int acc_num =mdao.makeAccount(acc_code, id);
 	
-
+	
+	
 %>
 </head>
 <body>
@@ -33,3 +45,6 @@
 	</table>
 </body>
 </html>
+<%
+	}
+%>

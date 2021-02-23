@@ -1,3 +1,4 @@
+<%@page import="org.apache.tomcat.util.descriptor.web.LoginConfig"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="algo.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,9 +11,19 @@
 </head>
 <body>
 	<%
-		String id="wnddnr";
+		if(session.getAttribute("uid")==null){
+			%>
+				<script type="text/javascript">
+					alert("로그인을 해주세요");
+					location.href="Login.jsp";
+				</script>
+			<%
+		
+		}
+		String id=(String)session.getAttribute("uid");
 		MemberDAO mdao=new MemberDAO();
 	%>
+	<%@include file="top.jsp" %>
 	<table border="1">
 		<form action="AccountDealProc.jsp" method="get">
 			<tr>
@@ -47,7 +58,7 @@
 				<td>입금액</td>
 				<td colspan="2"><input type="number" name="money">원</td>
 			</tr>
-			<tr align="center"><td colspan="2"><input type="submit" value="입금하기"></td></tr>
+			<tr align="center"><td colspan="2"><input type="submit" name="tp" value="입금하기"></td></tr>
 		</form>
 	</table>
 </body>

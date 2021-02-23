@@ -1,25 +1,25 @@
-
 CREATE TABLE "PERSON" (
-	"ID"	char(20)		NOT NULL,
-	"NAME"	char(30)		NULL,
+	"ID"	varchar(20)		NOT NULL,
+	"NAME"	varchar(30)		NULL,
 	"GENDER"	number(13)		NULL,
 	"YEAR"	number(3)		NULL,
-	"pw"	char(20)		NULL
+	"PASS"	varchar(20)		NULL
 );
-select *from OWNACCOUNT;
-delete OWNACCOUNT where balance=0;
-update ownaccount set balance=10000 where acc_num=2111450678; 
-insert into ACCOUNT values(3,'예금');
+SELECT * FROM ACCOUNT;
+insert into ACCOUNT values(3,'예금','사람이 예금을 해야지 어쩌고 저쩌고 예금통장은 정말 좋아(홍보)');
+
+drop table person;
 CREATE TABLE "ACCOUNT" (
 	"ACC_CODE"	number(13)		NOT NULL,
-	"ACC_NAME"	char(10)		NULL
+	"ACC_NAME"	varchar(10)		NULL,
+	"ACC_EX"	varchar(200)		NULL
 );
 
 CREATE TABLE "OWNACCOUNT" (
 	"ACC_NUM"	number(13)		NOT NULL,
 	"BALANCE"	number(10)		NULL,
 	"ACC_CODE"	number(10)		NOT NULL,
-	"ID"	char(12)		NOT NULL
+	"ID"	varchar(12)		NOT NULL
 );
 
 CREATE TABLE "ACC_W_D" (
@@ -45,3 +45,4 @@ ALTER TABLE "OWNACCOUNT" ADD CONSTRAINT "PK_OWNACCOUNT" PRIMARY KEY (
 ALTER TABLE "ACC_W_D" ADD CONSTRAINT "PK_ACC_W_D" PRIMARY KEY (
 	"Key"
 );
+

@@ -1,4 +1,3 @@
-<%@page import="algo.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,10 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-		MemberDAO mdao=new MemberDAO();
-		
-	%>
+<%
+	session.invalidate() ;
+	response.sendRedirect("Main.jsp");
+%>
 
 </body>
 </html>
