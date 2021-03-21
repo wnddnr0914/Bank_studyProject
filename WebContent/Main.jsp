@@ -12,7 +12,7 @@
 
 <body>
 	<center>
-	<%@include file="top.jsp" %>
+	<jsp:include page="top.jsp"></jsp:include>
 		<table border="1">
 		
 		

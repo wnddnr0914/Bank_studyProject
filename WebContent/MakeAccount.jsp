@@ -22,7 +22,7 @@
 		MemberDAO mdao=new MemberDAO();
 		
 	%>
-	<%@include file="top.jsp" %>
+	<jsp:include page="top.jsp"></jsp:include>
 	<table>
 	<form action="MakeAccountProc.jsp" method="get" >
 		<tr><td><h2>계좌 만들기</h2></td></tr>

@@ -19,6 +19,7 @@
 	
 %>
 <body>
+<%@include file="top.jsp" %>
 	<center>
 	<form action="LoginProc.jsp" method="get">
 	<table>

@@ -31,7 +31,7 @@
 		</script>
 		
 	<%
-	}
+	}else{
 	MemberDAO mdao =new MemberDAO();
 	mdao.insertMemberJoin(mbean);
 	%>
@@ -40,6 +40,7 @@
 			location.href="Main.jsp";
 		</script>
 	<%
+	}
 %>
 값은 정상적으로 들어갔당
 

@@ -1,14 +1,30 @@
+select Activation from person where acc_num=?
+
+
+
 CREATE TABLE "PERSON" (
-	"ID"	varchar(20)		NOT NULL,
+	"ID"	varchar(20)		primary key,
 	"NAME"	varchar(30)		NULL,
 	"GENDER"	number(13)		NULL,
 	"YEAR"	number(3)		NULL,
-	"PASS"	varchar(20)		NULL
+	"PASS"	varchar(20)		NULL,
+	"ACTIVATION"	number(1)		NULL
 );
-SELECT * FROM ACCOUNT;
-insert into ACCOUNT values(3,'예금','사람이 예금을 해야지 어쩌고 저쩌고 예금통장은 정말 좋아(홍보)');
 
-drop table person;
+
+
+
+select *from PERSON;
+update PERSON set ACTIVATION=1;
+
+insert into ACCOUNT values(0,'자유','자유는 어쩌고 저쩌고');
+insert into ACCOUNT values(1,'적금','적금은 어쩌고 저쩌고');
+insert into ACCOUNT values(2,'예금','예금은 어쩌고 저쩌고');
+insert into ACCOUNT values(3,'청약','청약은 어쩌고 저쩌고');
+
+update OWNACCOUNT set BALANCE=100000 where ACC_NUM=27299575;
+
+insert into val
 CREATE TABLE "ACCOUNT" (
 	"ACC_CODE"	number(13)		NOT NULL,
 	"ACC_NAME"	varchar(10)		NULL,
@@ -21,7 +37,7 @@ CREATE TABLE "OWNACCOUNT" (
 	"ACC_CODE"	number(10)		NOT NULL,
 	"ID"	varchar(12)		NOT NULL
 );
-
+select * from OWNACCOUNT;
 CREATE TABLE "ACC_W_D" (
 	"Key"	number		NOT NULL,
 	"MONEY"	number(7)		NULL,

@@ -45,7 +45,7 @@ public class MemberDAO {
 		getCon();
 		try {
 			//con.setAutoCommit(false);
-		String sql="INSERT INTO PERSON VALUES(?,?,?,?,?)";
+		String sql="INSERT INTO PERSON VALUES(?,?,?,?,?,?)";
 		
 		pstmt =con.prepareStatement(sql);
 
@@ -54,16 +54,30 @@ public class MemberDAO {
 		pstmt.setInt(3, bean.getGender());
 		pstmt.setInt(4, bean.getYear());
 		pstmt.setString(5, bean.getPw1());
+		pstmt.setInt(6, 1);
 
 		pstmt.executeUpdate();
 	
-		//pstmt.close();
-			con.close();
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
-		
+		}finally {
+			try {
+				if(pstmt!=null) {
+
+					pstmt.close();	
+				}
+				if(con!=null) {
+
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 				
 		
@@ -94,6 +108,22 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 		
@@ -103,14 +133,14 @@ public class MemberDAO {
 	
 	
 	public Vector<u_OwnAccount> allSelectMember(String id) {
-		
+		Statement s =null;
 		Vector<u_OwnAccount> v =new Vector<>();
 		try {
 			getCon();
 			
 			
 			String sql="select * from OWNACCOUNT WHERE ID=\'"+id+"\'";
-			Statement s = con.createStatement();
+			s= con.createStatement();
 		
 			
 			rs=s.executeQuery(sql);
@@ -129,26 +159,26 @@ public class MemberDAO {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(s!=null) {
+					s.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return v;
 	}	
 	
-	public String Transform_name (int acc_code) {
-		String acc_name=null;
-		try {
-			getCon();
-			String sql="SELECT ACC_NAME FROM ACCOUNT WHERE ACC_CODE=\'"+acc_code+"\'";
-			Statement s=con.createStatement();
-			rs=s.executeQuery(sql);
-			rs=pstmt.executeQuery();
-			acc_name=rs.getNString("ACC_NAME");
-			return acc_name;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return acc_name;
-	
-	}
 	
 	
 
@@ -167,9 +197,24 @@ public class MemberDAO {
 			u_OwnAccount ownAccount = new u_OwnAccount();
 			arr.add(rs.getInt("ACC_NUM"));
 		}
-		con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 		
@@ -177,15 +222,30 @@ public class MemberDAO {
 		return arr ; 
 	}
 	
-	public boolean hi (int a ,int b ,int c) {//입금해주는 메소드
+	public boolean hi (int a ,int b ,int c, String id) {//입금해주는 메소드
 		try {
-			getCon();
 			if (hi2(b)) {//여기 일단 임시 조치로 이렇게 홰놓음
+				//받는 계좌가 존재하는 계좌인지 확인해 주는 함수
 				return false;
 			}
+			getCon();
+			//받는계좌번호 사용자가 비활성화 상태인지 확인하는코드
+			String sql="select Activation from person where ID=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				if(rs.getInt(1)==0) {
+					return false;
+				}
+			}
+			
+			System.out.println("황성화 상태 체크 완료");
+			
+			
 	
 			//계좌번호의 잔액 조회해 주는 코드+원래 있던 돈에서 나갈돈을 빼준다
-			String sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM=?";
+			sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, a);
 			rs=pstmt.executeQuery();
@@ -200,6 +260,8 @@ public class MemberDAO {
 				original_give_money-=c;
 			
 			}
+
+			System.out.println("나갈돈 계산 체크 완료");
 			
 			
 			//나갈돈을 데이터 베이스에서 빼는작업
@@ -208,7 +270,10 @@ public class MemberDAO {
 			pstmt.setInt(1, original_give_money);
 			pstmt.setInt(2, a);
 			pstmt.executeUpdate();
-
+			
+		
+			System.out.println("돈 빼는 거 체크 완료");
+			
 			//계좌번호의 잔액 조회해주고 들어올돈 플러스 해주는 코드
 			sql="SELECT * FROM OWNACCOUNT WHERE ACC_NUM=?";
 			pstmt=con.prepareStatement(sql);
@@ -220,6 +285,8 @@ public class MemberDAO {
 				original_get_money+=c;
 					
 			}
+
+			System.out.println("들어올돈 계산 체크");
 			
 			//계좌에 플러스 해준돈을 디비에 업데이트 해주는
 			sql="UPDATE OWNACCOUNT SET BALANCE=? WHERE ACC_NUM=? ";
@@ -228,7 +295,8 @@ public class MemberDAO {
 			pstmt.setInt(2, b);
 			pstmt.executeUpdate();
 			
-			
+		
+			System.out.println("디비에 돈 추가해주는거 체크 완료");
 			//아직 찾는중
 		
 			Timestamp timestamp =new Timestamp(System.currentTimeMillis());
@@ -243,13 +311,38 @@ public class MemberDAO {
 		
 			pstmt.setInt(3, b);
 			pstmt.setInt(4, a);
+			
+			
+		
+			System.out.println("거래내역 추가 확인");
 	
 		
 			pstmt.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				try {
+					con.rollback();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 	
+				
+			}finally {
+				try {
+					if(rs!=null) {
+						rs.close();
+					}
+					if(pstmt!=null) {
+						pstmt.close();
+					}
+					if(con!=null) {
+						con.close();	
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 		return true;
@@ -268,7 +361,24 @@ public class MemberDAO {
 					
 			}
 		} catch (Exception e) {
+			
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return true;
 	}
@@ -295,6 +405,22 @@ public class MemberDAO {
 			return a;
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return null; 
 	}
@@ -315,6 +441,22 @@ public class MemberDAO {
 			return list;
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return list;
 	}
@@ -356,18 +498,36 @@ public class MemberDAO {
 			
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return (int) acc_num;
 	}
 	public boolean login (String id, String pw) {
 		getCon();
 		try {
-			System.out.println(id+" "+pw);
 			
-			String sql="SELECT * FROM PERSON WHERE ID=? AND PASS=?";
+			
+			String sql="SELECT * FROM PERSON WHERE ID=? AND PASS=? AND Activation=?";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
+			pstmt.setInt(3, 1);
 			rs=pstmt.executeQuery();
 	
 			while(rs.next()) {
@@ -378,6 +538,22 @@ public class MemberDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return false;
 	}
@@ -396,21 +572,227 @@ public class MemberDAO {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		return namStr;
 	}
-	public String Goods_Ex() {
-		
+	public ArrayList<Integer> Goods_Ex() {
+		ArrayList<Integer> goods=new ArrayList<Integer>();
 		try {
 			getCon();
-			String sql="select ";
+			String sql="SELECT ACC_CODE FROM ACCOUNT";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				goods.add(rs.getInt(1));
+			}
 			
-		} catch (Exception e) {
+			} catch (Exception e) {
 			e.printStackTrace();
+			
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
-		return "ㅇㄹㄴ:"; 
+		return goods;
+
 	}
 	
 	
+	public ArrayList<MyAccountList> MyAccount(String uid) {
+		ArrayList<MyAccountList> a=new ArrayList<MyAccountList>();
+		
+		try {
+			getCon();
+			String sql="SELECT ACC_NUM,ACC_CODE FROM OWNACCOUNT WHERE ID=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, uid);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				MyAccountList acc=new MyAccountList();
+				acc.setAcc_num(rs.getInt(1));
+				acc.setKind(rs.getInt(2));
+				a.add(acc);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return a;
+	}
 	
+	
+	public String return_name(int num) {
+		String name=null;
+		try {
+			getCon();
+			String sql="SELECT ACC_NAME FROM ACCOUNT WHERE ACC_CODE=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				name=rs.getNString(1);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return name;
+	}
+	public bean My_info(String id) {
+		bean bean=new bean();
+		try {
+			getCon();
+			String sql="SELECT * FROM PERSON WHERE ID=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				System.out.println(rs.getString(1));
+
+				bean.setId(rs.getString(1));
+				bean.setName(rs.getString(2));
+				bean.setGender(rs.getInt(3));
+				bean.setYear(rs.getInt(4));
+				bean.setPw1(rs.getString(5));
+		
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return bean;
+	}
+	public void DisableMember(String id) {
+		try {
+			getCon();
+			String sql="update person set Activation=0 where id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
+	public void UpadteMember(bean vo) {
+		try {
+			getCon();
+			String sql="update person set NAME=?, YEAR=?, PASS=? where ID=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setInt(2, vo.getYear());
+			pstmt.setString(3, vo.getPw1());
+			pstmt.setString(4, vo.getId());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(con!=null) {
+					con.close();	
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+	}
 }

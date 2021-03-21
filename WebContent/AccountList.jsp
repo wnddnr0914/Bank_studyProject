@@ -46,7 +46,7 @@
 			<tr height="50">
 				<td align="center" width="150" ><%=a.getAcc_num() %><input type="hidden" name="ACC_NUM" value="<%= a.getAcc_num()%>"></td>
 				<td align="center" width="150"><%=a.getBalance() %></td>
-				<td align="center" width="150"><%=mdao.Transform_name(a.getAcc_code()) %></td>
+				<td align="center" width="150"><%=mdao.return_name(a.getAcc_code()) %></td>
 				<td align="center" width="150"><%=a.getId() %></td>
 				<td><input type="submit" value="거래내역"></td>>
 			</tr>

@@ -23,7 +23,7 @@
 		String id=(String)session.getAttribute("uid");
 		MemberDAO mdao=new MemberDAO();
 	%>
-	<%@include file="top.jsp" %>
+	<jsp:include page="top.jsp"></jsp:include>
 	<table border="1">
 		<form action="AccountDealProc.jsp" method="get">
 			<tr>

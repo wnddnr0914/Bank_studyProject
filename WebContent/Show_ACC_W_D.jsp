@@ -11,7 +11,7 @@
 </head>
 <body>
 	<%
-	if(request.getParameter("ACC_NUM")==null){
+	if(request.getParameter("ACC_NUM")==null|| session.getAttribute("uid")==null){
 		%>
 			<script type="text/javascript">
 				alert("제대로된 경로를 통해 들어와 주세요");
@@ -26,7 +26,7 @@
 		Vector<acc_w_d> vec =mdao.acc_record(ACC_NUM);
 		acc_w_d a=new acc_w_d(); 
 	%>
-	<%@include file="top.jsp" %>
+	<jsp:include page="top.jsp"></jsp:include>
 	<center><h1>거래내역</h1></center>
 	<center>
 	<table border="1">

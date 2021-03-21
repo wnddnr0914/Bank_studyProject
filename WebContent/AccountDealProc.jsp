@@ -23,10 +23,11 @@
 	int give_acc=Integer.parseInt(request.getParameter("give_acc"));
 	int get_acc=Integer.parseInt(request.getParameter("get_acc"));
 	int money=Integer.parseInt(request.getParameter("money"));
+	String id=(String)session.getAttribute("uid");
 	
 	MemberDAO mdao=new MemberDAO();
 	
-	boolean check=mdao.hi(give_acc, get_acc, money);
+	boolean check=mdao.hi(give_acc, get_acc, money, id);
 	if(check==false){
 		%>
 			<script type="text/javascript">
