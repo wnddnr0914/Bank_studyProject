@@ -1,3 +1,4 @@
+<%@page import="algo.bean"%>
 <%@page import="algo.MemberDAO"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
@@ -15,11 +16,22 @@
 <body>
 <%
 	request.setCharacterEncoding("UTF-8");
-%>
+
+	bean mbean = new bean();
 	
-	<jsp:useBean id="mbean" class="algo.bean">
-		<jsp:setProperty name="mbean" property="*"/>
-	</jsp:useBean>
+	mbean.setId(request.getParameter("id"));
+	mbean.setGender(Integer.parseInt(request.getParameter("gender")));
+	mbean.setYear(Integer.parseInt(request.getParameter("year")));
+	mbean.setName(request.getParameter("name"));
+	mbean.setPw1(request.getParameter("pw1"));
+	mbean.setPw2(request.getParameter("pw2"));
+
+
+	
+	
+	
+%>
+
 
 <% 
 	
@@ -37,7 +49,7 @@
 	%>
 		<script type="text/javascript">
 			alert("회원가입이 완료되었습니다");
-			location.href="Main.jsp";
+			location.href="index.jsp";
 		</script>
 	<%
 	}

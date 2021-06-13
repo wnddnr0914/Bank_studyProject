@@ -65,7 +65,7 @@
 			</td>
 		</tr>
 	</table>
-	<input type="button" onclick="location.href='MemberModifyproc1.jsp" value="수정">
+	<input type="button" onclick="location.href='MemberModifyproc1.jsp'" value="수정">
 	<input type="button" onclick="location.href='DeleteMember.jsp?id=<%=id %>'" value="계정 탈퇴">
 	</center>
 	<%

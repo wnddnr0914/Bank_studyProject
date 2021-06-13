@@ -17,7 +17,7 @@
 		
 		
 		<tr>
-			<td colspan="4"><img src="image/ad.png"></td>	
+			<td colspan="4"><a href="MakeAccount.jsp"><img src="image/adad.jpg"></a></td>	
 			
 		</tr>
 		</table>

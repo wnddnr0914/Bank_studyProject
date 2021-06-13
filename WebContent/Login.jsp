@@ -38,7 +38,7 @@
 		<tr>
 			<td><input type="submit" value="로그인"></td>
 		</tr>
-		<tr> <td><a href="http://localhost:8090/algo/JoinMember.jsp">회원가입</a></td></tr>
+		<tr> <td><a href="JoinMember.jsp">회원가입</a></td></tr>
 	</table>
 	</form>
 </center>

@@ -12,7 +12,7 @@
 		%>
 			<script type="text/javascript">
 			alert("제대로된 경로로 들어와 주세요");
-			location.href="Main.jsp";
+			location.href="index.jsp";
 			</script>
 		<%
 	}else{

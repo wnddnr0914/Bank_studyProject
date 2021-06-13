@@ -40,6 +40,7 @@
 		%>
 		<script type="text/javascript">
 			alert("입금 완료되었습니다");
+			location.href="index.jsp"
 		</script>
 		<%
 		
@@ -48,7 +49,7 @@
 		%>
 		<script type="text/javascript">
 		alert("제대로된 경로를 통해 들어와 주세요");
-		location.href="Main.jsp";
+		location.href="index.jsp";
 		</script>
 			
 		<%

@@ -15,7 +15,7 @@ MemberDAO mdao12=new MemberDAO();
 %>
 <body>
 <center>
-	<a href="Main.jsp"><img src="image/bank.png"; width="100px"; height="90px";></a>
+	<a href="index.jsp"><img src="image/bank.png"; width="100px"; height="90px";></a>
 	<ul class="myMenu">
     <li class="menu1"><a href="AccountDeal.jsp">계좌 이체</a></li>
     <li class="menu2">
@@ -28,13 +28,11 @@ MemberDAO mdao12=new MemberDAO();
             My_acc=mdao12.MyAccount(idss);
            for(int i=0;i<My_acc.size();i++){
            %>
-           	<li><a><%= mdao12.return_name(My_acc.get(i).getKind()) %>,<%= My_acc.get(i).getAcc_num() %></a></li>            
+          <li> <a href="Show_ACC_W_D.jsp?ACC_NUM=<%= My_acc.get(i).getAcc_num() %>"><%= mdao12.return_name(My_acc.get(i).getKind()) %>,<%= My_acc.get(i).getAcc_num() %></a> </li>         
            <%
            }
            
         %>
-       
-       
            
         </ul>   
     </li>
@@ -46,12 +44,12 @@ MemberDAO mdao12=new MemberDAO();
         	goods=mdao12.Goods_Ex();
         	for(int i=0;i<goods.size();i++){
         		%>
-        		<li><%= mdao12.return_name(goods.get(i)) %></li>
+        		<li><a href="Goods.jsp?Goods=<%= mdao12.return_name(goods.get(i)) %>"><%= mdao12.return_name(goods.get(i)) %></li>
         		<%
         	}
         		%>
         </ul>   
-    </li>
+   </li>
     <li class="menu4"><a href="Myinfo.jsp">내정보 보기</a></li>
 </ul>
 	

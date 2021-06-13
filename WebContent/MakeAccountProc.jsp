@@ -12,7 +12,7 @@
 		%>
 			<script type="text/javascript">
 				alert("제대로된 경로를 통해 들어와 주세요");
-				location.href="Main.jsp";
+				location.href="index.jsp";
 			</script>
 		<%
 	}
@@ -36,13 +36,12 @@
 	
 	
 %>
+<script type="text/javascript">
+	alert("계좌 번호는 <%=acc_num%>입니다");
+	location.href='index.jsp';
+</script>
 </head>
 <body>
-	<table>
-		<tr><td>계좌가 만들어 졌습니다</td></tr>
-		<tr><td>종류</td><td><%= acc_code%></td></tr>
-		<tr><td>ㄱㅖ좌번호</td><td><%= acc_num%></td></tr>
-	</table>
 </body>
 </html>
 <%

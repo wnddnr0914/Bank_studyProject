@@ -14,8 +14,7 @@
 		%>
 			<script type="text/javascript">
 			alert("제대로된 경로로 들어와 주세요");
-			location.href="Main.jsp";
-			
+			location.href="index.jsp";
 			</script>
 		<%
 	}else{
@@ -23,7 +22,7 @@
 		MemberDAO dao=new MemberDAO();
 		dao.DisableMember(id);
 		session.invalidate();
-		response.sendRedirect("Main.jsp");
+		response.sendRedirect("index.jsp");
 	}
 %>
 

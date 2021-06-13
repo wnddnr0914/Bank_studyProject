@@ -10,11 +10,14 @@ import java.util.Vector;
 
 import javax.annotation.ManagedBean;
 
+import javax.naming.Context;
 import org.apache.jasper.tagplugins.jstl.core.Catch;
 import org.apache.jasper.tagplugins.jstl.core.Out;
-
+import javax.sql.DataSource;
+import javax.naming.InitialContext;
 import java.math.BigDecimal;
 import java.sql.*;
+
 public class MemberDAO {
 	
 	String id="wnddnr0914";
@@ -29,35 +32,55 @@ public class MemberDAO {
 		
 		
 		try{
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			
-			con =  DriverManager.getConnection(url,id,pass);
+		
+			Context context = new InitialContext();
+
+		    DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/oracle");
+
+		    con = dataSource.getConnection();    
+
+
+
+
+			con.setAutoCommit(false);
 			
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			
 	
 		}
 	}
 	
 	
 	public void insertMemberJoin(bean bean)   {
-		getCon();
+		
 		try {
-			//con.setAutoCommit(false);
-		String sql="INSERT INTO PERSON VALUES(?,?,?,?,?,?)";
+			getCon();
+			Savepoint savepoint=con.setSavepoint();
+		String sql="insert into PERSON values(?,?,?,?,?,?)";
 		
 		pstmt =con.prepareStatement(sql);
-
+		
+		
 		pstmt.setString(1, bean.getId());
+		System.out.println(bean.getId());
+		
 		pstmt.setString(2, bean.getName());
 		pstmt.setInt(3, bean.getGender());
 		pstmt.setInt(4, bean.getYear());
 		pstmt.setString(5, bean.getPw1());
 		pstmt.setInt(6, 1);
 
-		pstmt.executeUpdate();
-	
+		int i=0;
+		i=pstmt.executeUpdate();
+		
+
+		if(i!=0) {
+			con.commit();
+		}else {
+			con.rollback(savepoint);
+		}
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -84,8 +107,9 @@ public class MemberDAO {
 	}
 	
 	public boolean check_id (String id) {
-		getCon();
+		
 		try {
+			getCon();
 			String sql="SELECT ID FROM PERSON";
 			pstmt=con.prepareStatement(sql);
 			rs=pstmt.executeQuery();
@@ -134,7 +158,7 @@ public class MemberDAO {
 	
 	public Vector<u_OwnAccount> allSelectMember(String id) {
 		Statement s =null;
-		Vector<u_OwnAccount> v =new Vector<>();
+		Vector<u_OwnAccount> v =new Vector<u_OwnAccount>();
 		try {
 			getCon();
 			
@@ -223,12 +247,15 @@ public class MemberDAO {
 	}
 	
 	public boolean hi (int a ,int b ,int c, String id) {//입금해주는 메소드
+		Savepoint savepoint = null;
 		try {
+			
 			if (hi2(b)) {//여기 일단 임시 조치로 이렇게 홰놓음
 				//받는 계좌가 존재하는 계좌인지 확인해 주는 함수
 				return false;
 			}
 			getCon();
+			savepoint=con.setSavepoint();
 			//받는계좌번호 사용자가 비활성화 상태인지 확인하는코드
 			String sql="select Activation from person where ID=?";
 			pstmt=con.prepareStatement(sql);
@@ -318,11 +345,12 @@ public class MemberDAO {
 	
 		
 			pstmt.executeUpdate();
+			con.commit();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				try {
-					con.rollback();
+					con.rollback(savepoint);
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -487,15 +515,19 @@ public class MemberDAO {
 			acc_num/=10000000;
 		
 			
-			
+			Savepoint savepoint=con.setSavepoint();
 			String sql="INSERT INTO OWNACCOUNT VALUES(?,0,?,?)";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setInt(1, (int) acc_num);
 			pstmt.setInt(2, code);
 			pstmt.setString(3, id);
-			pstmt.executeUpdate();
+			int i=pstmt.executeUpdate();
+			if(i!=0) {
+				con.commit();
+			}else {
+				con.rollback(savepoint);
+			}
 			return (int) acc_num;
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally {
@@ -743,10 +775,16 @@ public class MemberDAO {
 	public void DisableMember(String id) {
 		try {
 			getCon();
+			Savepoint savepoint=con.setSavepoint();
 			String sql="update person set Activation=0 where id=?";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.executeUpdate();
+			int i=pstmt.executeUpdate();
+			if(i!=0) {
+				con.commit();
+			}else {
+				con.rollback(savepoint);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally {

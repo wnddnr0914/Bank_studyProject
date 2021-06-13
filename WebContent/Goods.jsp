@@ -8,8 +8,12 @@
 </head>
 <body>
 <%
+	request.setCharacterEncoding("UTF-8");
 String Goods=request.getParameter("Goods");
 %>
+<jsp:include page="top.jsp"></jsp:include>
+<div width="100px" height="500px";>
+<center>
 <table>
 	<tr>
 		<td><h2><%=Goods %> 설명</h2></td>
@@ -18,6 +22,8 @@ String Goods=request.getParameter("Goods");
 		<td><a href="MakeAccount.jsp">계좌 만들러 가기</a></td>
 	</tr>
 </table>
-
+</center>
+</div>
+<jsp:include page="bottom.jsp"></jsp:include>
 </body>
 </html>
